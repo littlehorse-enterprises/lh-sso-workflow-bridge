@@ -7,7 +7,7 @@ export default async function AdminLayout({
   children: React.ReactNode;
 }) {
   const session = await auth();
-  if (!session) return redirect("/api/auth/signout");
+  if (!session) return redirect("/api/signout");
 
   if (!session.roles.includes("lh-user-tasks-admin")) redirect("/");
 
