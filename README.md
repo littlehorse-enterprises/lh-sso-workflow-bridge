@@ -56,9 +56,9 @@ Build the docker image:
 ```
 
 ```bash
-docker run --name lh-user-tasks-ui -p 3000:3000 --rm \
+docker run --name lh-user-tasks-ui -p 3000:3000 --rm -it \
   --env NEXTAUTH_URL='http://localhost:3000' \
-  --env NEXTAUTH_SECRET='<any secret here>' \
+  --env NEXTAUTH_SECRET=' ' \
   --env KEYCLOAK_HOST='http://keycloak:8888' \
   --env KEYCLOAK_REALM='default' \
   --env KEYCLOAK_CLIENT_ID='user-tasks-client' \
