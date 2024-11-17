@@ -1,5 +1,10 @@
 "use client";
-import { completeUserTask, getUserTask } from "@/app/actions/user";
+import {
+  adminCompleteUserTask,
+  adminGetUserTask,
+} from "@/app/[tenantId]/actions/admin";
+import { completeUserTask, getUserTask } from "@/app/[tenantId]/actions/user";
+import { useTenantId } from "@/app/[tenantId]/layout";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Dialog,
@@ -19,7 +24,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
 import {
   GetUserTaskResponse,
   UserTask,
@@ -28,9 +32,7 @@ import {
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import Loading from "../../loading";
-import { adminCompleteUserTask, adminGetUserTask } from "@/app/actions/admin";
 import NotesTextArea from "../notes";
-import { Separator } from "@/components/ui/separator";
 
 export default function CompleteUserTaskButton({
   userTask,
@@ -43,9 +45,13 @@ export default function CompleteUserTaskButton({
 }) {
   const [userTaskDetails, setUserTaskDetails] = useState<GetUserTaskResponse>();
   const [userTaskResult, setUserTaskResult] = useState<UserTaskResult>({});
+  const tenantId = useTenantId();
 
   useEffect(() => {
-    (admin ? adminGetUserTask(userTask) : getUserTask(userTask))
+    (admin
+      ? adminGetUserTask(tenantId, userTask)
+      : getUserTask(tenantId, userTask)
+    )
       .then((res) => {
         if ("message" in res) {
           toast.error(res.message);
@@ -182,8 +188,16 @@ export default function CompleteUserTaskButton({
                     return toast.warning("All required fields must be filled.");
                   try {
                     const response = admin
-                      ? await adminCompleteUserTask(userTask, userTaskResult)
-                      : await completeUserTask(userTask, userTaskResult);
+                      ? await adminCompleteUserTask(
+                          tenantId,
+                          userTask,
+                          userTaskResult,
+                        )
+                      : await completeUserTask(
+                          tenantId,
+                          userTask,
+                          userTaskResult,
+                        );
                     setUserTaskResult({});
                     if (response && "message" in response) {
                       toast.error(response.message);

@@ -1,13 +1,19 @@
 import { listUserGroups, listUserTasks } from "./actions/user";
 import ListUserTasks from "./components/user-task/list";
 
-export default async function Home() {
-  const listUserGroupsResponse = await listUserGroups();
+export default async function Home({
+  params,
+}: {
+  params: { tenantId: string };
+}) {
+  const listUserGroupsResponse = await listUserGroups(params.tenantId);
 
   if ("message" in listUserGroupsResponse)
     throw new Error(listUserGroupsResponse.message);
 
-  const listUserTasksResponse = await listUserTasks({ limit: 10 });
+  const listUserTasksResponse = await listUserTasks(params.tenantId, {
+    limit: 10,
+  });
 
   if ("message" in listUserTasksResponse)
     throw new Error(listUserTasksResponse.message);
