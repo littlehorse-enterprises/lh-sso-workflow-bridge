@@ -29,6 +29,8 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import Loading from "../../loading";
 import { adminCompleteUserTask, adminGetUserTask } from "@/app/actions/admin";
+import NotesTextArea from "../notes";
+import { Separator } from "@/components/ui/separator";
 
 export default function CompleteUserTaskButton({
   userTask,
@@ -65,7 +67,7 @@ export default function CompleteUserTaskButton({
           {readOnly ? "View Results" : "Complete"}
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="gap-2">
         <DialogHeader>
           <DialogTitle>
             {readOnly ? "View Results for" : "Complete"}{" "}
@@ -77,12 +79,11 @@ export default function CompleteUserTaskButton({
           <>
             <div className="space-y-2">
               <Label>Notes:</Label>
-              <Textarea
-                placeholder="Notes"
-                value={userTaskDetails.notes ?? "N/A"}
-                readOnly
-              />
+              <NotesTextArea notes={userTaskDetails.notes} />
             </div>
+            <h1 className="text-lg font-semibold text-center">
+              Fill out the form
+            </h1>
             {userTaskDetails.fields.map((field) => (
               <div key={field.name} className="space-y-2">
                 <Label>
