@@ -7,6 +7,21 @@ This repository contains the code for:
 
 This repository will help you interact with LittleHorse's UserTask API.
 
+## Overview
+
+The LH UserTask UI provides a complete solution for managing human tasks within LittleHorse workflows. It consists of:
+
+1. A modern web interface built with Next.js for managing and interacting with user tasks
+2. A TypeScript API client that simplifies integration with the UserTasks API
+3. Integration with Keycloak or any OIDC provider for secure authentication and authorization
+
+This project is designed to work seamlessly with LittleHorse's workflow engine, allowing organizations to:
+
+- Manage human-driven tasks within automated workflows
+- Assign and track tasks for individuals or groups
+- Monitor task progress and completion
+- Maintain security through OIDC authentication
+
 ## Quickstart with Standalone Image
 
 ### Prerequisites for Quickstart
@@ -145,3 +160,63 @@ The UI will start with watch mode on <http://localhost:3001>
 - User Tasks UI: <http://localhost:3001>
 - LittleHorse Dashboard: <http://localhost:8080>
 - Keycloak Admin Console: <http://localhost:8888>
+
+## Running with SSL
+
+To run the UI with SSL enabled, you'll need to:
+
+1. Create a directory for your SSL certificates:
+
+```bash
+mkdir ssl
+```
+
+2. Generate self-signed certificates for local development:
+
+```bash
+openssl req -x509 -out ssl/cert.pem -keyout ssl/key.pem \
+  -newkey rsa:2048 -nodes -sha256 \
+  -subj '/CN=localhost' -extensions EXT -config <( \
+   printf "[dn]\nCN=localhost\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=DNS:localhost\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth")
+```
+
+3. Run the container with SSL enabled:
+
+```bash
+docker run --rm -d \
+    -e SSL=enabled \
+    -v $(pwd)/ssl:/ssl \
+    -e NEXTAUTH_URL='https://localhost:3443' \
+    -e NEXTAUTH_SECRET='your-secret-here' \
+    -e KEYCLOAK_HOST='http://localhost:8888' \
+    -e KEYCLOAK_REALM='default' \
+    -e KEYCLOAK_CLIENT_ID='user-tasks-client' \
+    -e KEYCLOAK_CLIENT_SECRET=' ' \
+    -e LHUT_API_URL='http://localhost:8089' \
+    -p 3000:3000 -p 3443:3443 \
+    ghcr.io/littlehorse-enterprises/lh-user-tasks-api/lh-user-tasks-ui:main
+```
+
+When SSL is enabled, the UI will be available on:
+
+- HTTP: <http://localhost:3000>
+- HTTPS: <https://localhost:3443>
+
+### Environment Variables for SSL
+
+| Variable | Description | Required |
+|----------|-------------|----------|
+| `SSL` | Set to `enabled` to enable SSL | Yes |
+| `NEXTAUTH_URL` | Full URL where the app will be accessible (use HTTPS port) | Yes |
+| `NEXTAUTH_SECRET` | Random string used to hash tokens | Yes |
+| `KEYCLOAK_HOST` | Keycloak server URL | Yes |
+| `KEYCLOAK_REALM` | Keycloak realm name | Yes |
+| `KEYCLOAK_CLIENT_ID` | Client ID from Keycloak | Yes |
+| `KEYCLOAK_CLIENT_SECRET` | Client secret from Keycloak | Yes |
+| `LHUT_API_URL` | URL of the User Tasks API | Yes |
+
+### Notes
+
+- For production environments, replace the self-signed certificates with proper SSL certificates
+- The self-signed certificate will trigger browser warnings - this is expected for local development
+- Make sure your Keycloak configuration includes the HTTPS URL in the allowed redirect URIs
