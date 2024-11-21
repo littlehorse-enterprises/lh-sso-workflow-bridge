@@ -30,6 +30,7 @@ This project is designed to work seamlessly with LittleHorse's workflow engine, 
 - [httpie](https://httpie.io/) (for testing commands)
 - [jq](https://jqlang.github.io/jq/) (for testing commands)
 - [lhctl](https://littlehorse.dev/docs/getting-started/installation) (for testing commands)
+- [openssl](https://www.openssl.org/) (for SSL certificates)
 
 The fastest way to get started is using our standalone image that includes all necessary components:
 
@@ -165,22 +166,20 @@ The UI will start with watch mode on <http://localhost:3001>
 
 To run the UI with SSL enabled, you'll need to:
 
-1. Create a directory for your SSL certificates:
+1. Generate SSL certificates using the provided script:
 
 ```bash
-mkdir ssl
+./local-dev/issue-certificates.sh
 ```
 
-2. Generate self-signed certificates for local development:
+This script will:
 
-```bash
-openssl req -x509 -out ssl/cert.pem -keyout ssl/key.pem \
-  -newkey rsa:2048 -nodes -sha256 \
-  -subj '/CN=localhost' -extensions EXT -config <( \
-   printf "[dn]\nCN=localhost\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=DNS:localhost\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth")
-```
+- Create a `ssl` directory if it doesn't exist
+- Generate a self-signed certificate (`cert.pem`) and private key (`key.pem`)
+- Set up the certificates with a 10-year validity period
+- Configure them for localhost usage
 
-3. Run the container with SSL enabled:
+2. Run the container with SSL enabled:
 
 ```bash
 docker run --rm -d \
