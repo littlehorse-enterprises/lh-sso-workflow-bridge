@@ -128,6 +128,7 @@ pre-commit install
 
 ```bash
 AUTH_URL='http://localhost:3000'
+NEXTAUTH_URL='http://localhost:3000'
 AUTH_SECRET='<any secret here>'
 
 AUTH_KEYCLOAK_ID='sso-workflow-bridge-client'
@@ -183,17 +184,18 @@ This script will:
 2. Run the container with SSL enabled:
 
 ```bash
-docker run --rm -d \
+docker run --rm \
     -e SSL=enabled \
-    -v $(pwd)/ssl:/ssl \
+    -v ./local-dev/ssl:/ssl \
     -e AUTH_URL='https://localhost:3443' \
+    -e NEXTAUTH_URL='https://localhost:3443' \
     -e AUTH_SECRET='your-secret-here' \
     -e AUTH_KEYCLOAK_ID='sso-workflow-bridge-client' \
     -e AUTH_KEYCLOAK_SECRET=' ' \
     -e AUTH_KEYCLOAK_ISSUER='http://localhost:8888/realms/default' \
     -e LHUT_API_URL='http://localhost:8089' \
     -p 3000:3000 -p 3443:3443 \
-    ghcr.io/littlehorse-enterprises/sso-workflow-bridge/sso-workflow-bridge-ui:main
+    ghcr.io/littlehorse-enterprises/lh-sso-workflow-bridge/lh-sso-workflow-bridge-ui:main
 ```
 
 When SSL is enabled, the UI will be available on:
