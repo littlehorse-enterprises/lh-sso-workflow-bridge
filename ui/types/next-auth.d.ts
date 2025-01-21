@@ -25,7 +25,7 @@ declare module "next-auth" {
   interface Session {
     access_token: string;
     id_token: number;
-    roles: string[];
+    isAdmin: boolean;
     error: unknown;
     user: User;
   }

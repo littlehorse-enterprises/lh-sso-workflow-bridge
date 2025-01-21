@@ -24,12 +24,11 @@ export default function Header() {
 
   return (
     <>
-      {session.data?.roles.includes("lh-user-tasks-admin") &&
-        pathname == `/${tenantId}` && (
-          <p className="text-sm text-destructive-foreground bg-destructive text-center py-2">
-            Viewing as User
-          </p>
-        )}
+      {session.data?.isAdmin && pathname == `/${tenantId}` && (
+        <p className="text-sm text-destructive-foreground bg-destructive text-center py-2">
+          Viewing as User
+        </p>
+      )}
       <header className="flex px-4 md:px-8 lg:px-16 py-4 bg-foreground/10">
         <div className="flex-1 flex items-center">
           <Image src={logo} alt="Logo" height={50} priority className="mr-2" />
@@ -56,7 +55,7 @@ export default function Header() {
                 </DropdownMenuLabel>
 
                 <DropdownMenuSeparator />
-                {session.data?.roles.includes("lh-user-tasks-admin") && (
+                {session.data?.isAdmin && (
                   <>
                     {pathname.startsWith(`/${tenantId}/admin`) ? (
                       <DropdownMenuItem asChild>
