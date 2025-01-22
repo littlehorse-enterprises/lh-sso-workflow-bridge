@@ -217,6 +217,7 @@ When SSL is enabled, the UI will be available on:
 | `AUTH_KEYCLOAK_SECRET`    | Client secret from Keycloak                                | Yes      |
 | `AUTH_KEYCLOAK_ISSUER`    | Keycloak server URL                                        | Yes      |
 | `LHUT_API_URL`            | URL of the User Tasks API                                  | Yes      |
+| `AUTHORITIES`             | Paths to extract roles from the token                      | Yes      |
 
 ### Notes
 
