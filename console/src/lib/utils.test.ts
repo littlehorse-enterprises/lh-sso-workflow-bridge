@@ -3,7 +3,8 @@ import assert from "node:assert";
 import { getRoles } from "./utils";
 
 test("getRoles with roles and permissions", () => {
-  process.env.AUTHORITIES = "$.realm_access.roles,$.resource_access.*.roles";
+  process.env.LHUT_AUTHORITIES =
+    "$.realm_access.roles,$.resource_access.*.roles";
 
   const testObj = {
     realm_access: {
@@ -26,7 +27,8 @@ test("getRoles with roles and permissions", () => {
 });
 
 test("getRoles with one matching path (no wildcard)", () => {
-  process.env.AUTHORITIES = "$.realm_access.roles,$.resource_access.*.roles";
+  process.env.LHUT_AUTHORITIES =
+    "$.realm_access.roles,$.resource_access.*.roles";
 
   const testObj = {
     realm_access: {
@@ -44,7 +46,8 @@ test("getRoles with one matching path (no wildcard)", () => {
 });
 
 test("getRoles with one matching path (with wildcard)", () => {
-  process.env.AUTHORITIES = "$.realm_access.roles,$.resource_access.*.roles";
+  process.env.LHUT_AUTHORITIES =
+    "$.realm_access.roles,$.resource_access.*.roles";
 
   const testObj = {
     resource_access: {
@@ -64,7 +67,8 @@ test("getRoles with one matching path (with wildcard)", () => {
 });
 
 test("getRoles with no matching paths", () => {
-  process.env.AUTHORITIES = "$.realm_access.roles,$.resource_access.*.roles";
+  process.env.LHUT_AUTHORITIES =
+    "$.realm_access.roles,$.resource_access.*.roles";
 
   const obj = {
     guest: {

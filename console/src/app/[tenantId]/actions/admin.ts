@@ -5,7 +5,7 @@ import {
   ListUserTasksRequest,
   UserTask,
   UserTaskResult,
-} from "@littlehorse-enterprises/sso-workflow-bridge-api-client";
+} from "@littlehorse-enterprises/user-tasks-bridge-api-client";
 
 export async function adminCancelUserTask(
   tenantId: string,

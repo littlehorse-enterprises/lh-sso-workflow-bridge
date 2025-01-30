@@ -4,7 +4,7 @@ import {
   ListUserTasksRequest,
   UserTask,
   UserTaskResult,
-} from "@littlehorse-enterprises/sso-workflow-bridge-api-client";
+} from "@littlehorse-enterprises/user-tasks-bridge-api-client";
 
 export async function claimUserTask(tenantId: string, userTask: UserTask) {
   return clientWithErrorHandling(tenantId, (client) =>

@@ -1,4 +1,4 @@
-name: Build
+name: Build and Test
 
 on:
   pull_request:
@@ -29,3 +29,6 @@ jobs:
 
       - name: Build
         run: npm run build -ws
+
+      - name: Test
+        run: npm run test -ws --if-present

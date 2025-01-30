@@ -1,6 +1,6 @@
 "use client";
-import { adminCancelUserTask } from "@/app/[tenantId]/actions/admin";
-import { cancelUserTask } from "@/app/[tenantId]/actions/user";
+
+import { claimUserTask } from "@/app/[tenantId]/actions/user";
 import { useTenantId } from "@/app/[tenantId]/layout";
 import {
   AlertDialog,
@@ -14,54 +14,50 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button, buttonVariants } from "@/components/ui/button";
-import { UserTask } from "@littlehorse-enterprises/sso-workflow-bridge-api-client";
+import { UserTask } from "@littlehorse-enterprises/user-tasks-bridge-api-client";
 import { toast } from "sonner";
 
-export default function CancelUserTaskButton({
+export default function ClaimUserTaskButton({
   userTask,
-  admin,
 }: {
   userTask: UserTask;
-  admin?: boolean;
 }) {
   const tenantId = useTenantId();
 
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="destructive">Cancel</Button>
+        <Button variant="outline">Claim</Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>
-            Are you sure you want to permanently cancel this UserTask?
+            Are you sure you want to claim this UserTask?
           </AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone.
+            This UserTask will be assigned to you.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Close</AlertDialogCancel>
 
           <AlertDialogAction
-            className={buttonVariants({ variant: "destructive" })}
+            className={buttonVariants({ variant: "default" })}
             onClick={async () => {
               try {
-                const response = admin
-                  ? await adminCancelUserTask(tenantId, userTask)
-                  : await cancelUserTask(tenantId, userTask);
+                const response = await claimUserTask(tenantId, userTask);
 
                 if (response && "message" in response)
                   return toast.error(response.message);
 
-                toast.success("UserTask cancelled successfully");
+                toast.success("UserTask claimed successfully");
               } catch (error) {
-                toast.error("Failed to cancel userTask");
+                toast.error("Failed to claim UserTask");
                 console.error(error);
               }
             }}
           >
-            Cancel UserTask
+            Claim UserTask
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

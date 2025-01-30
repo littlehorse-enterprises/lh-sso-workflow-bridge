@@ -1,12 +1,12 @@
 import {
   LHUserTasksError,
-  LHSWBApiClient,
-} from "@littlehorse-enterprises/sso-workflow-bridge-api-client";
+  LHUTBApiClient,
+} from "@littlehorse-enterprises/user-tasks-bridge-api-client";
 import { redirect } from "next/navigation";
 import { auth } from "../app/api/auth/[...nextauth]/authOptions";
 
-export class LHSWBApiClientSingleton {
-  private static instance: LHSWBApiClient | null = null;
+export class LHUTBApiClientSingleton {
+  private static instance: LHUTBApiClient | null = null;
   private static currentConfig: {
     baseUrl: string;
     tenantId: string;
@@ -15,7 +15,7 @@ export class LHSWBApiClientSingleton {
 
   private constructor() {}
 
-  public static async getInstance(tenantId: string): Promise<LHSWBApiClient> {
+  public static async getInstance(tenantId: string): Promise<LHUTBApiClient> {
     const session = await auth();
 
     if (!session) redirect(`/api/auth/signin?callbackUrl=/`);
@@ -34,7 +34,7 @@ export class LHSWBApiClientSingleton {
       this.currentConfig.tenantId !== config.tenantId ||
       this.currentConfig.accessToken !== config.accessToken
     ) {
-      this.instance = new LHSWBApiClient(config);
+      this.instance = new LHUTBApiClient(config);
       this.currentConfig = config;
     }
 
@@ -43,12 +43,12 @@ export class LHSWBApiClientSingleton {
 }
 
 export async function getClient(tenantId: string) {
-  return LHSWBApiClientSingleton.getInstance(tenantId);
+  return LHUTBApiClientSingleton.getInstance(tenantId);
 }
 
 export async function clientWithErrorHandling<T>(
   tenantId: string,
-  action: (client: LHSWBApiClient) => Promise<T>,
+  action: (client: LHUTBApiClient) => Promise<T>,
 ) {
   const client = await getClient(tenantId);
   try {
