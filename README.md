@@ -213,7 +213,7 @@ When SSL is enabled, the UI will be available on:
 | `SSL`                     | Set to `enabled` to enable SSL                             | Yes      |
 | `AUTH_URL`                | Full URL where the app will be accessible (use HTTPS port) | Yes      |
 | `AUTH_SECRET`             | Random string used to hash tokens                          | Yes      |
-| `AUTH_KEYCLOAK_CLIENT_ID` | Client ID from Keycloak                                    | Yes      |
+| `AUTH_KEYCLOAK_ID`        | Client ID from Keycloak                                    | Yes      |
 | `AUTH_KEYCLOAK_SECRET`    | Client secret from Keycloak                                | Yes      |
 | `AUTH_KEYCLOAK_ISSUER`    | Keycloak server URL                                        | Yes      |
 | `LHUT_API_URL`            | URL of the User Tasks API                                  | Yes      |

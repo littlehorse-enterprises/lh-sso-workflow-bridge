@@ -1,9 +1,9 @@
 FROM ghcr.io/littlehorse-enterprises/alpine-nginx-nodejs/nginx-nodejs:main
 WORKDIR /app
 
-COPY ./console/.next/standalone/console ./
-COPY ./console/.next/standalone/node_modules ./node_modules
-COPY ./console/.next/static ./.next/static
+COPY ./.next/standalone/console ./
+COPY ./.next/standalone/node_modules ./node_modules
+COPY ./.next/static ./.next/static
 
 COPY ./entrypoint.sh ./
 
