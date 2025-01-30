@@ -3,7 +3,7 @@
 	"author": "LittleHorse Enterprises",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/littlehorse-enterprises/user-tasks-bridge.git"
+		"url": "https://github.com/littlehorse-enterprises/lh-user-tasks-bridge.git"
 	},
 	"workspaces": [
 		"api-client",

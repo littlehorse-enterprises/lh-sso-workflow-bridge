@@ -27,8 +27,10 @@ jobs:
       - name: Lint
         run: npm run lint -ws
 
+      - name: Test
+        run: npm run test -ws --if-present
+
       - name: Build
         run: npm run build -ws
 
-      - name: Test
-        run: npm run test -ws --if-present
+
